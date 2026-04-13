@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specials & Offers | Dil Restaurant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Jost:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0C0C0C; color: #F5F0E5; font-family: 'Jost', sans-serif; padding: 60px 5%; }
+        :root { --gold: #C9A84C; --dil-red: #8B1A1A; }
+        * { box-sizing: border-box; }
+        @media(max-width:600px){
+            body { padding: 40px 16px; }
+            h2 { font-size: 2rem; margin-bottom: 32px; }
+            .grid { grid-template-columns: 1fr; gap: 16px; }
+            .card { padding: 20px; }
+        }
+        h2 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: #C9A84C; text-align: center; margin-bottom: 50px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .card { 
+            background: #141414; 
+            border: 1px solid rgba(201, 168, 76, 0.2); 
+            padding: 30px; 
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .promo-tag { 
+            position: absolute; top: 10px; right: 10px; 
+            background: #8B1A1A; color: white; padding: 5px 10px; font-size: 0.7rem; 
+        }
+
+        .price { color: #C9A84C; font-weight: 600; font-size: 1.2rem; }
+        .date { font-size: 0.8rem; color: #777; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <a href="home.html" style="color: #C9A84C; text-decoration: none;">← Back to Home</a>
+    
+    <h2>Current Specials & New Arrivals</h2>
+
+    <div id="specialsDisplay" class="grid">
+        </div>
+
+    <script>
+        const meals = JSON.parse(localStorage.getItem('dil_meals')) || [];
+        const promos = JSON.parse(localStorage.getItem('dil_promos')) || [];
+        const display = document.getElementById('specialsDisplay');
+
+        promos.forEach(p => {
+            display.innerHTML += `
+                <div class="card">
+                    <div class="promo-tag">LIMITED OFFER</div>
+                    <h3 style="color:#C9A84C">${p.title}</h3>
+                    <p style="font-size:2rem;margin:10px 0">${p.value}% OFF</p>
+                    <p class="date">Valid until: ${p.date}</p>
+                </div>`;
+        });
+
+        meals.forEach(m => {
+            display.innerHTML += `
+                <div class="card">
+                    <div class="promo-tag" style="background:#C9A84C;color:#000">NEW ARRIVAL</div>
+                    ${m.image ? `<img src="${m.image}" style="width:100%;height:200px;object-fit:cover;margin-bottom:15px;border-radius:2px">` : ''}
+                    <h3>${m.name}</h3>
+                    <p style="color:#aaa;font-size:.9rem;margin:10px 0">${m.desc}</p>
+                    <p class="price">K${m.price}</p>
+                </div>`;
+        });
+
+        if (meals.length === 0 && promos.length === 0) {
+            display.innerHTML = "<p style='text-align:center;width:100%;color:#777'>No active specials at the moment. Check back soon!</p>";
+        }
+    </script>
+</body>
+</html>

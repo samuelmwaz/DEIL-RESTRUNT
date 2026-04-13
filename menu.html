@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Dil Restaurant Lusaka</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- CORE STYLES FROM HOME.HTML --- */
+        :root {
+            --gold: #C9A84C;
+            --gold-dim: rgba(201,168,76,0.1);
+            --dil-red: #8B1A1A;
+            --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        [data-theme="dark"] {
+            --bg-main: #0C0C0C;
+            --bg-panel: #161616;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --border: rgba(255,255,255,0.05);
+        }
+        [data-theme="light"] {
+            --bg-main: #F9F7F2;
+            --bg-panel: #FFFFFF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #555555;
+            --border: rgba(0,0,0,0.05);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'Jost', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- SIDE THEME PANELS --- */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            height: 100%;
+            width: 80px;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--gold-dim);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .side-panel.right { right: 0; border-right: none; border-left: 1px solid var(--gold-dim); }
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--gold);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: sticky;
+            top: 0;
+            padding: 0 100px;
+            height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-main);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+        .hamburger-menu{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:8px}
+        .hamburger-menu span{display:block;width:22px;height:2px;background:var(--text-primary);border-radius:2px;transition:all .3s ease}
+        .hamburger-menu.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+        .hamburger-menu.open span:nth-child(2){opacity:0}
+        .hamburger-menu.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+        .mobile-nav-menu{display:none;position:fixed;inset:0;z-index:200;flex-direction:column}
+        .mobile-nav-menu.open{display:flex}
+        .mnm-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+        .mnm-drawer{position:relative;margin-left:auto;width:75%;max-width:300px;height:100%;background:var(--bg-panel);border-left:1px solid rgba(201,168,76,0.2);padding:90px 30px 40px;display:flex;flex-direction:column;gap:4px;transform:translateX(100%);transition:transform .35s ease}
+        .mobile-nav-menu.open .mnm-drawer{transform:translateX(0)}
+        .mnm-drawer a{display:block;color:var(--text-secondary);text-decoration:none;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;padding:14px 0;border-bottom:1px solid var(--border);transition:color .3s}
+        .mnm-drawer a:hover{color:var(--gold)}
+        .logo h1 { 
+            font-family: 'Cormorant Garamond', serif; 
+            margin: 0; font-size: 1.8rem; letter-spacing: 2px;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text-primary);
+            margin-left: 30px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        #themeBtn {
+            background: none; border: 1px solid var(--gold);
+            color: var(--gold); padding: 5px 12px; cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        /* --- MENU CONTENT --- */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 100px;
+        }
+
+        .menu-header {
+            margin-bottom: 80px;
+        }
+        .menu-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            margin: 0;
+            font-weight: 300;
+        }
+        .menu-header p {
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* --- MASONRY GRID FOR MENU IMAGES --- */
+        .menu-grid {
+            column-count: 3;
+            column-gap: 30px;
+        }
+
+        .menu-item {
+            break-inside: avoid;
+            margin-bottom: 30px;
+            position: relative;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 10px;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+        }
+
+        .menu-item img {
+            width: 100%;
+            display: block;
+            filter: grayscale(20%);
+            transition: var(--transition);
+        }
+
+        .menu-item:hover img {
+            filter: grayscale(0%);
+        }
+
+        .item-label {
+            margin-top: 15px;
+            padding: 5px;
+            text-align: left;
+        }
+
+        .item-label span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+
+        /* Footer Overlay */
+        footer {
+            padding: 100px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+            .menu-grid { column-count: 2; }
+            header { padding: 0 20px; }
+            .container { padding: 0 24px; margin: 40px auto; }
+            footer { padding: 40px 24px; }
+            .side-panel { display: none; }
+            nav a { display: none; }
+            .hamburger-menu { display: flex; }
+        }
+        @media (max-width: 600px) {
+            .menu-grid { column-count: 1; }
+            .menu-header h2 { font-size: 2.4rem; }
+            .menu-header { margin-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="side-panel">
+        <div class="vertical-text">Authentic Experience</div>
+    </div>
+    <div class="side-panel right">
+        <div class="vertical-text">Established 1994</div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <h1>DIL<span style="color:var(--gold)">.</span></h1>
+        </div>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="#" style="color:var(--gold)">Menu</a>
+            <button id="themeBtn">SWITCH THEME</button>
+        </nav>
+        <button class="hamburger-menu" id="menuHamburger"><span></span><span></span><span></span></button>
+    </header>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav-menu" id="mobileNavMenu">
+        <div class="mnm-backdrop" id="mnmBackdrop"></div>
+        <div class="mnm-drawer">
+            <a href="home.html">Home</a>
+            <a href="#" style="color:var(--gold)">Menu</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="menu-header">
+            <p>A Culinary Journey</p>
+            <h2>Our Menu Selection</h2>
+        </div>
+
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="imgaes/menu1.jpg" alt="Menu Item">
+                <div class="item-label"><span>Starters & Appetizers</span></div>
+            </div>
+            
+            <div class="menu-item">
+                <img src="imgaes/menu2.jpg" alt="Menu Item">
+                <div class="item-label"><span>Tandoori Specialties</span></div>
+            </div>
+
+            <div class="menu-item">
+                <img src="imgaes/menu3.jpg" alt="Menu Item">
+                <div class="item-label"><span>Chef's Signature Curries</span></div>
+            </div>
+
+            <div class="menu-item">
+                <img src="imgaes/menu4.jpg" alt="Menu Item">
+                <div class="item-label"><span>Vegetarian Delights</span></div>
+            </div>
+
+            <div class="menu-item">
+                <img src="imgaes/meanu 6.jpg" alt="Menu Item">
+                <div class="item-label"><span>Authentic Chinese Corner</span></div>
+            </div>
+
+            <div class="menu-item">
+                <img src="imgaes/menu 8.jpg" alt="Menu Item">
+                <div class="item-label"><span>Breads & Naan</span></div>
+            </div>
+
+            <div class="menu-item">
+                <img src="imgaes/menu9.jpg" alt="Menu Item">
+                <div class="item-label"><span>Rice & Biryani</span></div>
+            </div>
+
+            <div class="menu-item">
+                <img src="imgaes/menu10.jpg" alt="Menu Item">
+                <div class="item-label"><span>Desserts</span></div>
+            </div>
+
+            <div class="menu-item">
+                <img src="imgaes/menu11.jpg" alt="Menu Item">
+                <div class="item-label"><span>Beverages</span></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 DIL RESTAURANT GROUP. DESIGNED FOR EXCELLENCE.
+    </footer>
+
+    <script>
+        /* THEME TOGGLE LOGIC (Matches your Home.html) */
+        const btn = document.getElementById('themeBtn');
+        const html = document.documentElement;
+
+        btn.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', target);
+            localStorage.setItem('dil-theme', target);
+        });
+
+        // Load saved theme
+        const saved = localStorage.getItem('dil-theme') || 'dark';
+        html.setAttribute('data-theme', saved);
+    </script>
+    <script>
+        const mh = document.getElementById('menuHamburger');
+        const mnm = document.getElementById('mobileNavMenu');
+        const mnmB = document.getElementById('mnmBackdrop');
+        function openMnm(){ mh.classList.add('open'); mnm.classList.add('open'); document.body.style.overflow='hidden'; }
+        function closeMnm(){ mh.classList.remove('open'); mnm.classList.remove('open'); document.body.style.overflow=''; }
+        mh.addEventListener('click', () => mnm.classList.contains('open') ? closeMnm() : openMnm());
+        mnmB.addEventListener('click', closeMnm);
+        mnm.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMnm));
+    </script>
+</body>
+</html>

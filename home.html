@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dil Restaurant | Authentic Indian & Chinese</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8D5A3;
+            --gold-dim: rgba(201,168,76,0.15);
+            --dil-red: #8B1A1A;
+            --transition: all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        [data-theme="dark"] {
+            --bg-main:  #0C0C0C;
+            --bg-mid:   #141414;
+            --bg-panel: #1A1A1A;
+            --text-primary: #F5F0E8;
+            --text-muted:   #888;
+            --border: rgba(201,168,76,0.25);
+            --header-bg: rgba(12,12,12,0.96);
+            --shadow: 0 4px 30px rgba(0,0,0,0.6);
+            --phone-bg: #111;
+            --quote-clr: rgba(245,240,232,0.06);
+            --year-clr:  rgba(201,168,76,0.12);
+            --body-text: rgba(245,240,232,0.72);
+        }
+        [data-theme="light"] {
+            --bg-main:  #FAF8F4;
+            --bg-mid:   #F2EDE4;
+            --bg-panel: #EDE8DF;
+            --text-primary: #1C1C1C;
+            --text-muted:   #888;
+            --border: rgba(139,90,30,0.22);
+            --header-bg: rgba(250,248,244,0.97);
+            --shadow: 0 4px 30px rgba(0,0,0,0.12);
+            --phone-bg: #fff;
+            --quote-clr: rgba(139,90,30,0.06);
+            --year-clr:  rgba(201,168,76,0.18);
+            --body-text: #555;
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Jost',sans-serif;background:var(--bg-main);color:var(--text-primary);overflow-x:hidden;transition:background .4s,color .4s}
+
+        /* ANNOUNCEMENT */
+        .ann{background:var(--dil-red);padding:10px 0;overflow:hidden}
+        .ann-track{display:flex;width:max-content;animation:annScroll 30s linear infinite}
+        .ann-item{white-space:nowrap;font-size:.68rem;letter-spacing:3px;text-transform:uppercase;font-weight:500;padding:0 50px;color:var(--gold-light)}
+        .ann-item span{color:#fff;margin:0 8px}
+        @keyframes annScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+        /* HEADER */
+        header{position:sticky;top:0;z-index:200;background:var(--header-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 60px;display:flex;justify-content:space-between;align-items:center;height:80px;transition:background .4s,box-shadow .4s}
+        .brand h1{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:2.2rem;letter-spacing:10px;font-weight:300;line-height:1}
+        .brand p{font-size:.58rem;text-transform:uppercase;letter-spacing:4px;color:var(--text-muted);margin-top:3px}
+        .header-right{display:flex;align-items:center;gap:36px}
+        nav ul{display:flex;list-style:none;gap:34px;align-items:center}
+        nav a{text-decoration:none;color:var(--text-muted);font-size:.72rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;transition:var(--transition);position:relative}
+        nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:var(--transition)}
+        nav a:hover{color:var(--gold)}
+        nav a:hover::after{width:100%}
+        .nav-cta{background:var(--dil-red)!important;color:#fff!important;padding:10px 22px;border:1px solid var(--dil-red)}
+        .nav-cta:hover{background:transparent!important;color:var(--dil-red)!important}
+        .nav-cta::after{display:none!important}
+        .theme-btn{cursor:pointer;background:none;border:1px solid var(--border);color:var(--text-primary);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--transition);flex-shrink:0}
+        .theme-btn:hover{border-color:var(--gold);background:var(--gold-dim)}
+
+        /* HERO */
+        .hero{height:100vh;min-height:650px;position:relative;overflow:hidden}
+        .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease}
+        .hero-slide.active{opacity:1}
+        .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.80) 0%,rgba(0,0,0,.38) 55%,rgba(139,26,26,.1) 100%)}
+        .hero-content{position:absolute;bottom:100px;left:80px;max-width:640px;z-index:2}
+        .hero-eyebrow{font-size:.65rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:400;opacity:0;animation:fadeUp 1s .3s forwards}
+        .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:300;line-height:1.1;letter-spacing:2px;margin-bottom:28px;color:#F5F0E8;opacity:0;animation:fadeUp 1s .5s forwards}
+        .hero-title em{font-style:italic;color:var(--gold)}
+        .hero-sub{font-size:.9rem;font-weight:300;color:rgba(245,240,232,.72);line-height:1.9;margin-bottom:42px;opacity:0;animation:fadeUp 1s .7s forwards}
+        .hero-actions{display:flex;gap:22px;align-items:center;opacity:0;animation:fadeUp 1s .9s forwards}
+        .btn-gold{background:var(--gold);color:#0C0C0C;padding:14px 36px;font-size:.72rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold);transition:var(--transition);display:inline-block}
+        .btn-gold:hover{background:transparent;color:var(--gold)}
+        .btn-ghost{color:#F5F0E8;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:10px;transition:var(--transition)}
+        .btn-ghost:hover{color:var(--gold)}
+        .btn-ghost::after{content:'→';transition:var(--transition)}
+        .btn-ghost:hover::after{transform:translateX(5px)}
+        .hero-dots{position:absolute;bottom:40px;right:80px;display:flex;gap:10px;z-index:2}
+        .dot{width:28px;height:1px;background:rgba(255,255,255,.3);cursor:pointer;transition:var(--transition)}
+        .dot.active{background:var(--gold);width:52px}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+        /* COLLECTIONS */
+        .collections{background:var(--bg-mid);padding:90px 60px;border-bottom:1px solid var(--border)}
+        .sec-label{text-align:center;font-size:.62rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+        .sec-title{font-family:'Cormorant Garamond',serif;text-align:center;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:300;margin-bottom:55px;letter-spacing:2px;color:var(--text-primary)}
+        .circles-row{display:flex;justify-content:center;gap:26px;flex-wrap:wrap}
+        .circle-item{display:flex;flex-direction:column;align-items:center;gap:14px;cursor:pointer}
+        .circle-img{width:145px;height:145px;border-radius:50%;overflow:hidden;border:2px solid var(--border);transition:var(--transition)}
+        .circle-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(.8);transition:var(--transition)}
+        .circle-item:hover .circle-img{border-color:var(--gold);transform:scale(1.06)}
+        .circle-item:hover .circle-img img{filter:brightness(.92) saturate(1.1)}
+        .circle-label{font-size:.67rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);transition:var(--transition)}
+        .circle-item:hover .circle-label{color:var(--gold)}
+
+        /* FEATURES */
+        .features{background:var(--bg-panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+        .feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+        .feat-card{background:var(--bg-panel);padding:52px 36px;display:flex;flex-direction:column;gap:16px;transition:var(--transition);position:relative;overflow:hidden}
+        .feat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transition:var(--transition)}
+        .feat-card:hover::after{transform:scaleX(1)}
+        .feat-card:hover{background:var(--bg-mid)}
+        .feat-icon{font-size:1.6rem}
+        .feat-title{font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:400;color:var(--text-primary)}
+        .feat-desc{font-size:.78rem;color:var(--text-muted);line-height:1.85;font-weight:300}
+
+        /* STORY */
+        .story-section{display:grid;grid-template-columns:1fr 1fr;min-height:600px}
+        .story-img-wrap{position:relative;overflow:hidden}
+        .story-img-wrap img{width:100%;height:100%;object-fit:cover;filter:brightness(.82) saturate(.9);transition:transform 8s ease}
+        .story-img-wrap:hover img{transform:scale(1.06)}
+        .story-img-overlay{position:absolute;inset:0}
+        [data-theme="dark"] .story-img-overlay{background:linear-gradient(to right,transparent 60%,#0C0C0C 100%)}
+        [data-theme="light"] .story-img-overlay{background:linear-gradient(to right,transparent 60%,#FAF8F4 100%)}
+        .story-text{background:var(--bg-main);padding:80px 70px;display:flex;flex-direction:column;justify-content:center;position:relative}
+        .story-text::before{content:'"';position:absolute;top:30px;left:50px;font-family:'Cormorant Garamond',serif;font-size:10rem;color:var(--quote-clr);line-height:1;pointer-events:none}
+        .story-year{font-family:'Cormorant Garamond',serif;font-size:4.5rem;font-weight:700;color:var(--year-clr);line-height:1;margin-bottom:18px}
+        .story-text p{font-family:'Cormorant Garamond',serif;font-size:1.32rem;line-height:1.88;color:var(--body-text);font-style:italic;font-weight:300;margin-bottom:18px}
+        .story-text p strong{font-style:normal;font-weight:600;color:var(--gold)}
+        .story-text p.body-copy{font-family:'Jost',sans-serif;font-style:normal;font-size:.87rem;line-height:1.92;color:var(--text-muted);font-weight:300}
+        .divider-gold{width:50px;height:1px;background:var(--gold);margin:28px 0}
+
+        /* MOSAIC */
+        .mosaic-section{padding:90px 60px;background:var(--bg-main)}
+        .mosaic-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:260px 260px;gap:6px;margin-top:55px}
+        .mosaic-item{overflow:hidden;position:relative}
+        .mosaic-item.tall{grid-row:1/3}
+        .mosaic-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.82) saturate(.85);transition:transform .8s ease,filter .8s ease}
+        .mosaic-item:hover img{transform:scale(1.06);filter:brightness(.95) saturate(1.1)}
+        .mosaic-cap{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 100%);font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);opacity:0;transition:var(--transition)}
+        .mosaic-item:hover .mosaic-cap{opacity:1}
+
+        /* MENU */
+        .menu-section{padding:100px 60px;background:var(--bg-mid)}
+        .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--border);margin-top:60px}
+        .menu-card{background:var(--bg-main);overflow:hidden;position:relative;cursor:pointer;aspect-ratio:3/4}
+        .menu-card img{width:100%;height:100%;object-fit:cover;filter:brightness(.65) saturate(.8);transition:transform .8s ease,filter .8s ease}
+        .menu-card:hover img{transform:scale(1.08);filter:brightness(.82) saturate(1.05)}
+        .menu-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 55%)}
+        .menu-content{position:absolute;bottom:0;left:0;right:0;padding:28px}
+        .menu-tag{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+        .menu-title{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:400;line-height:1.2;color:#F5F0E8}
+        .menu-desc{font-size:.77rem;color:rgba(255,255,255,.58);margin-top:8px;font-weight:300;line-height:1.65;max-height:0;overflow:hidden;transition:max-height .6s ease}
+        .menu-card:hover .menu-desc{max-height:80px}
+
+        /* BANNER */
+        .banner{height:480px;position:relative;overflow:hidden}
+        .banner img{width:100%;height:100%;object-fit:cover;filter:brightness(.6);transition:transform 10s ease}
+        .banner:hover img{transform:scale(1.04)}
+        .banner-over{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.75) 0%,rgba(0,0,0,.18) 62%,transparent 100%);display:flex;align-items:center;padding:0 80px}
+        .banner-txt{max-width:520px}
+        .banner-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.8rem);font-weight:300;color:#F5F0E8;line-height:1.2;letter-spacing:2px;margin:12px 0 24px}
+        .banner-title em{font-style:italic;color:var(--gold)}
+        .banner-body{font-size:.88rem;color:rgba(245,240,232,.7);line-height:1.9;font-weight:300}
+
+        /* GALLERY STRIP */
+        .gallery-wrap{background:var(--bg-panel);padding:50px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden}
+        .gal-label{text-align:center;font-size:.6rem;letter-spacing:6px;text-transform:uppercase;color:var(--text-muted);margin-bottom:28px}
+        .track{display:flex;width:max-content;animation:moveLeft 55s linear infinite}
+        .track img{width:240px;height:170px;object-fit:cover;margin-right:8px;filter:brightness(.75) saturate(.75);transition:var(--transition)}
+        .track img:hover{filter:brightness(.95) saturate(1.1);transform:scale(1.04)}
+        @keyframes moveLeft{0%{transform:translateX(0)}100%{transform:translateX(calc(-248px * 16))}}
+
+        /* CONTACT */
+        .contact-section{background:var(--bg-main);padding:100px 60px;border-top:1px solid var(--border)}
+        .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+        .contact-left>p{font-size:.87rem;color:var(--text-muted);line-height:1.92;font-weight:300;margin-bottom:36px}
+        .phone-link{display:flex;align-items:center;gap:20px;padding:26px 34px;border:1px solid var(--border);background:var(--phone-bg);margin-bottom:10px;transition:var(--transition);text-decoration:none}
+        .phone-link:hover{border-color:var(--gold);background:var(--gold-dim)}
+        .ph-icon{font-size:1.3rem}
+        .ph-label{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+        .ph-num{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;color:var(--gold);letter-spacing:2px}
+        .contact-cards{display:flex;flex-direction:column;gap:2px}
+        .info-card{background:var(--bg-mid);padding:28px 30px;display:flex;gap:18px;align-items:flex-start;border-left:2px solid transparent;transition:var(--transition)}
+        .info-card:hover{border-left-color:var(--gold);background:var(--bg-panel)}
+        .ic-icon{font-size:1.2rem;margin-top:2px}
+        .ic-title{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+        .ic-text{font-size:.84rem;color:var(--text-muted);line-height:1.75;font-weight:300}
+        .ic-text strong{color:var(--text-primary);font-weight:500}
+
+        /* FOOTER */
+        footer{background:var(--bg-panel);border-top:1px solid var(--border);padding:60px;display:flex;justify-content:space-between;align-items:flex-end}
+        .ft-brand h2{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;letter-spacing:10px;color:var(--gold)}
+        .ft-brand p{font-size:.58rem;letter-spacing:4px;color:var(--text-muted);text-transform:uppercase;margin-top:5px}
+        .ft-right{text-align:right;font-size:.7rem;color:var(--text-muted);letter-spacing:1px;line-height:2}
+        .ft-right a{color:var(--text-muted);text-decoration:none;transition:var(--transition)}
+        .ft-right a:hover{color:var(--gold)}
+
+        /* HAMBURGER MENU */
+        .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:8px;z-index:300}
+        .hamburger span{display:block;width:24px;height:2px;background:var(--text-primary);border-radius:2px;transition:var(--transition)}
+        .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+        .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+        .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+        /* MOBILE NAV DRAWER */
+        .mobile-nav{display:none;position:fixed;inset:0;z-index:250;flex-direction:column}
+        .mobile-nav.open{display:flex}
+        .mobile-nav-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+        .mobile-nav-drawer{position:relative;margin-left:auto;width:80%;max-width:320px;height:100%;background:var(--bg-panel);border-left:1px solid var(--border);display:flex;flex-direction:column;padding:100px 36px 40px;gap:8px;overflow-y:auto;transform:translateX(100%);transition:transform .4s cubic-bezier(.25,.46,.45,.94)}
+        .mobile-nav.open .mobile-nav-drawer{transform:translateX(0)}
+        .mobile-nav a{display:block;color:var(--text-muted);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;padding:16px 0;border-bottom:1px solid var(--border);transition:var(--transition)}
+        .mobile-nav a:hover{color:var(--gold)}
+        .mobile-nav .nav-cta{background:var(--dil-red);color:#fff!important;padding:14px 22px;border:none;text-align:center;margin-top:16px;border-radius:2px;letter-spacing:2px}
+
+        /* RESPONSIVE */
+        @media(max-width:1024px){
+            .mosaic-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+            .mosaic-item.tall{grid-row:auto}
+        }
+        @media(max-width:900px){
+            header{padding:0 20px;height:64px}
+            .brand h1{font-size:1.7rem;letter-spacing:6px}
+            .header-right nav,.header-right nav ul{display:none}
+            .hamburger{display:flex}
+            .hero-content{left:20px;right:20px;bottom:70px}
+            .hero-dots{right:20px;bottom:24px}
+            .story-section{grid-template-columns:1fr}
+            .story-img-wrap{height:300px}
+            .story-text{padding:44px 24px}
+            .feat-grid{grid-template-columns:1fr 1fr}
+            .menu-grid{grid-template-columns:1fr 1fr}
+            .contact-inner{grid-template-columns:1fr;gap:36px}
+            .collections,.menu-section,.contact-section,.mosaic-section{padding:56px 20px}
+            footer{flex-direction:column;gap:24px;padding:36px 20px}
+            .ft-right{text-align:left}
+            .banner-over{padding:0 28px}
+            .banner{height:380px}
+            .circles-row{gap:16px}
+        }
+        @media(max-width:600px){
+            header{padding:0 16px;height:60px}
+            .brand h1{font-size:1.5rem;letter-spacing:5px}
+            .feat-grid{grid-template-columns:1fr}
+            .menu-grid{grid-template-columns:1fr}
+            .hero{min-height:100svh}
+            .hero-content{left:16px;right:16px;bottom:60px}
+            .hero-title{font-size:2.2rem;line-height:1.15}
+            .hero-sub{font-size:.82rem}
+            .hero-actions{flex-direction:column;align-items:flex-start;gap:16px}
+            .circle-img{width:90px;height:90px}
+            .circles-row{gap:12px}
+            .mosaic-grid{grid-template-columns:1fr 1fr}
+            .mosaic-item.tall{grid-row:auto}
+            .story-text{padding:36px 16px}
+            .story-year{font-size:3rem}
+            .collections,.menu-section,.contact-section,.mosaic-section{padding:48px 16px}
+            footer{padding:32px 16px}
+            .banner-over{padding:0 20px}
+            .banner-title{font-size:2rem}
+            .contact-section{padding:48px 16px}
+            .phone-link{padding:18px 20px}
+            .ph-num{font-size:1.2rem}
+            .ann-item{font-size:.6rem;letter-spacing:2px;padding:0 28px}
+            .sec-title{font-size:1.8rem}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann">
+    <div class="ann-track">
+        <span class="ann-item">Freshly Prepared Every Order <span>✦</span></span>
+        <span class="ann-item">Mild, Medium, or Hot — Your Choice <span>✦</span></span>
+        <span class="ann-item">Authentic Indian & Chinese Cuisine Since 1994 <span>✦</span></span>
+        <span class="ann-item">Now Serving Lusaka, Zambia <span>✦</span></span>
+        <span class="ann-item">Call to Order: +260 977 000 000 <span>✦</span></span>
+        <span class="ann-item">Dine In · Takeaway Available <span>✦</span></span>
+        <span class="ann-item">Freshly Prepared Every Order <span>✦</span></span>
+        <span class="ann-item">Mild, Medium, or Hot — Your Choice <span>✦</span></span>
+        <span class="ann-item">Authentic Indian & Chinese Cuisine Since 1994 <span>✦</span></span>
+        <span class="ann-item">Now Serving Lusaka, Zambia <span>✦</span></span>
+        <span class="ann-item">Call to Order: +260 977 000 000 <span>✦</span></span>
+        <span class="ann-item">Dine In · Takeaway Available <span>✦</span></span>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header>
+    <div class="brand">
+        <h1>DIL</h1>
+        <p>Authentic Indian &amp; Chinese</p>
+    </div>
+    <div class="header-right">
+        <nav>
+            <ul>
+                <li><a href="admin.html"> admin</a></li>
+                <li><a href="specials.html">special</a></li>
+
+                <li><a href="#story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="tel:+260977000000" class="nav-cta">Call Us</a></li>
+            </ul>
+        </nav>
+        <button class="theme-btn" id="themeBtn" title="Toggle light/dark mode">☀️</button>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- MOBILE NAV DRAWER -->
+<div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer">
+        <a href="admin.html">Admin</a>
+        <a href="specials.html">Specials</a>
+        <a href="#story" class="mobile-nav-link">Our Story</a>
+        <a href="#menu" class="mobile-nav-link">Menu</a>
+        <a href="#gallery" class="mobile-nav-link">Gallery</a>
+        <a href="#contact" class="mobile-nav-link">Contact</a>
+        <a href="tel:+260977000000" class="nav-cta">📞 Call Us</a>
+    </div>
+</div>
+
+<!-- HERO (5 slides) -->
+<section class="hero">
+    <div class="hero-slide active" style="background-image:url('imgaes/548673998_1350245333773697_8196879401267379493_n.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('imgaes/571992964_1389694473162116_631756577787477137_n.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('imgaes/492465991_1225341196264112_1287848346829862553_n.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1600');"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=1600');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">Est. 1994 · Lusaka, Zambia</p>
+        <h2 class="hero-title">A Taste of<br><em>India & China</em><br>in Zambia</h2>
+        <p class="hero-sub">Over <span id="years">30</span> years of authentic flavour, warmth, and tradition.<br>Every dish, freshly prepared for you.</p>
+        <div class="hero-actions">
+            <a href="menu.html" class="btn-gold">Explore Our Menu</a>
+            <a href="#story" class="btn-ghost">Our Story</a>
+        </div>
+    </div>
+    <div class="hero-dots">
+        <div class="dot active" onclick="goToSlide(0)"></div>
+        <div class="dot" onclick="goToSlide(1)"></div>
+        <div class="dot" onclick="goToSlide(2)"></div>
+        <div class="dot" onclick="goToSlide(3)"></div>
+        <div class="dot" onclick="goToSlide(4)"></div>
+    </div>
+</section>
+
+<!-- COLLECTIONS (7 circles) -->
+<section class="collections" id="menu">
+    <p class="sec-label">Explore the Kitchen</p>
+    <h2 class="sec-title">Shop By Collection</h2>
+    <div class="circles-row">
+        <div class="circle-item">
+            <div class="circle-img"><img src="imgaes/607896029_1442970591167837_1359356789472308314_n.jpg" alt="Indian Curries"></div>
+            <span class="circle-label">Indian Curries</span>
+        </div>
+        <div class="circle-item">
+            <div class="circle-img"><img src="imgaes/607733067_1442970287834534_2190755026907914377_n.jpg" alt="Tandoor Specials"></div>
+            <span class="circle-label">Tandoor Specials</span>
+        </div>
+        <div class="circle-item">
+            <div class="circle-img"><img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=400" alt="Chinese Classics"></div>
+            <span class="circle-label">Chinese Classics</span>
+        </div>
+        <div class="circle-item">
+            <div class="circle-img"><img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=400" alt="Rice & Noodles"></div>
+            <span class="circle-label">Rice &amp; Noodles</span>
+        </div>
+        <div class="circle-item">
+            <div class="circle-img"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400" alt="Vegetarian"></div>
+            <span class="circle-label">Vegetarian</span>
+        </div>
+        <div class="circle-item">
+            <div class="circle-img"><img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400" alt="Breads & Starters"></div>
+            <span class="circle-label">Breads &amp; Starters</span>
+        </div>
+        <div class="circle-item">
+            <div class="circle-img"><img src=" imgaes/502723813_18066686921008408_8428415635969686464_n.jpeg" alt="Desserts"></div>
+            <span class="circle-label">Desserts</span>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <div class="feat-grid">
+        <div class="feat-card">
+            <div class="feat-icon">🌶️</div>
+            <div class="feat-title">Your Heat, Your Choice</div>
+            <div class="feat-desc">Mild, medium, or hot — every dish is spiced exactly to your preference. Just ask when you order.</div>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">👨‍🍳</div>
+            <div class="feat-title">Freshly Prepared</div>
+            <div class="feat-desc">Every item is made to order from scratch. We kindly ask for your patience — quality takes time.</div>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">🍃</div>
+            <div class="feat-title">Vegetarian Friendly</div>
+            <div class="feat-desc">A wide selection of vegetarian dishes rooted in authentic Indian and Chinese culinary traditions.</div>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">🇿🇲</div>
+            <div class="feat-title">Lusaka's Own</div>
+            <div class="feat-desc">Proudly serving Zambia for over 30 years. Part of the city's fabric, and humbled to still be here.</div>
+        </div>
+    </div>
+</section>
+
+<!-- STORY -->
+<section class="story-section" id="story">
+    <div class="story-img-wrap">
+        <img src=" imgaes/487315879_1200794782052087_2293897308130312418_n.jpg" alt="Dil Restaurant interior">
+        <div class="story-img-overlay"></div>
+    </div>
+    <div class="story-text">
+        <div class="story-year">EST.<br>1994</div>
+        <div class="divider-gold"></div>
+        <p>At Dil Restaurant, we offer you an opportunity to experience the different tastes of <strong>Indian Cuisine</strong>, right here in Zambia.</p>
+        <p class="body-copy">We've opened our doors and heart to you for over <span id="years2">30</span> years and are pleased to continue to do so. Every effort will be made to ensure timely service — please bear with us for any delays, as each item is freshly prepared.</p>
+        <div class="divider-gold"></div>
+        <p class="body-copy" style="font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1rem;">"Mild, Medium, or Hot — the choice is always yours."</p>
+    </div>
+</section>
+
+<!-- PHOTO MOSAIC -->
+<section class="mosaic-section" id="gallery">
+    <p class="sec-label">A Glimpse Inside</p>
+    <h2 class="sec-title">From Our Table to Yours</h2>
+    <div class="mosaic-grid">
+        <div class="mosaic-item tall">
+            <img src="imgaes/492612518_1226998992764999_6076797093779294075_n.jpg" alt="Signature curry">
+            <div class="mosaic-cap">Signature Curry</div>
+        </div>
+        <div class="mosaic-item">
+            <img src="imgaes/603930790_1442970321167864_4349803841363329771_n.jpg" alt="Butter Chicken">
+            <div class="mosaic-cap">Butter Chicken</div>
+        </div>
+        <div class="mosaic-item">
+            <img src="imgaes/544816201_1342065847924979_78219263821894898_n.jpg" alt="Biryani">
+            <div class="mosaic-cap">Dum Biryani</div>
+        </div>
+        <div class="mosaic-item">
+            <img src=" imgaes/607896029_1442970591167837_1359356789472308314_n.jpg" alt="Tandoor">
+            <div class="mosaic-cap">Tandoor Grill</div>
+        </div>
+        <div class="mosaic-item">
+            <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?q=80&w=600" alt="Wok">
+            <div class="mosaic-cap">Wok Specials</div>
+        </div>
+    </div>
+</section>
+
+<!-- MENU HIGHLIGHTS (6 cards) -->
+<section class="menu-section">
+    <p class="sec-label">See What's New Today</p>
+    <h2 class="sec-title">Kitchen Favourites</h2>
+    <div class="menu-grid">
+        <div class="menu-card">
+            <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600" alt="Butter Chicken">
+            <div class="menu-overlay"></div>
+            <div class="menu-content">
+                <p class="menu-tag">Indian Classic</p>
+                <h3 class="menu-title">Butter Chicken</h3>
+                <p class="menu-desc">Tender chicken in a rich, creamy tomato-based sauce. A perennial favourite.</p>
+            </div>
+        </div>
+        <div class="menu-card">
+            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600" alt="Biryani">
+            <div class="menu-overlay"></div>
+            <div class="menu-content">
+                <p class="menu-tag">Chef's Special</p>
+                <h3 class="menu-title">Dum Biryani</h3>
+                <p class="menu-desc">Slow-cooked fragrant basmati rice layered with spiced meat and saffron.</p>
+            </div>
+        </div>
+        <div class="menu-card">
+            <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=600" alt="Wok Specials">
+            <div class="menu-overlay"></div>
+            <div class="menu-content">
+                <p class="menu-tag">Chinese Selection</p>
+                <h3 class="menu-title">Wok Specials</h3>
+                <p class="menu-desc">Crispy noodles, fragrant fried rice, and sizzling stir-fry dishes from the wok.</p>
+            </div>
+        </div>
+        <div class="menu-card">
+            <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600" alt="Dal Makhani">
+            <div class="menu-overlay"></div>
+            <div class="menu-content">
+                <p class="menu-tag">Vegetarian</p>
+                <h3 class="menu-title">Dal Makhani</h3>
+                <p class="menu-desc">Black lentils slow-simmered overnight in a velvety, buttery tomato masala.</p>
+            </div>
+        </div>
+        <div class="menu-card">
+            <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600" alt="Garlic Naan">
+            <div class="menu-overlay"></div>
+            <div class="menu-content">
+                <p class="menu-tag">From the Tandoor</p>
+                <h3 class="menu-title">Garlic Naan</h3>
+                <p class="menu-desc">Freshly baked, pillowy naan brushed with garlic butter straight from the clay oven.</p>
+            </div>
+        </div>
+        <div class="menu-card">
+            <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600" alt="Kung Pao">
+            <div class="menu-overlay"></div>
+            <div class="menu-content">
+                <p class="menu-tag">Chinese Classic</p>
+                <h3 class="menu-title">Kung Pao Chicken</h3>
+                <p class="menu-desc">Spicy, tangy, and deeply savoury — a beloved dish with peanuts and dried chillies.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FULL-WIDTH BANNER -->
+<div class="banner">
+    <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=1800" alt="Dining atmosphere">
+    <div class="banner-over">
+        <div class="banner-txt">
+            <p class="sec-label" style="text-align:left">The Dil Promise</p>
+            <h2 class="banner-title">Every dish,<br><em>freshly made</em><br>for you.</h2>
+            <p class="banner-body">We've opened our doors and heart to you for over <span id="years3">30</span> years and are pleased to continue to do so.</p>
+        </div>
+    </div>
+</div>
+
+<!-- MOVING GALLERY (32 images) -->
+<section class="gallery-wrap">
+    <p class="gal-label">From Our Kitchen</p>
+    <div class="track">
+        <img src="https://images.unsplash.com/photo-1603894584112-6bb625126863?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1601050690597-df056fb17262?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1603894584112-6bb625126863?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300" alt="Dish">
+        <!-- duplicate for seamless loop -->
+        <img src="https://images.unsplash.com/photo-1603894584112-6bb625126863?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1601050690597-df056fb17262?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1603894584112-6bb625126863?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300" alt="Dish">
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+    <div class="contact-inner">
+        <div class="contact-left">
+            <p class="sec-label" style="text-align:left">Get In Touch</p>
+            <h2 class="sec-title" style="text-align:left;font-size:2.8rem;font-weight:300;margin-bottom:22px;letter-spacing:2px;">Visit or<br>Call Us Today</h2>
+            <p>We'd love to hear from you. Whether you'd like to place an order, enquire about our menu, or simply find out more — give us a call and our team will be happy to help.</p>
+            <a href="tel:+260977000000" class="phone-link">
+                <div class="ph-icon">📞</div>
+                <div>
+                    <div class="ph-label">Call to Order</div>
+                    <div class="ph-num">+260 977 000 000</div>
+                </div>
+            </a>
+            <a href="tel:+260211000000" class="phone-link">
+                <div class="ph-icon">☎️</div>
+                <div>
+                    <div class="ph-label">Landline</div>
+                    <div class="ph-num">+260 211 000 000</div>
+                </div>
+            </a>
+        </div>
+        <div class="contact-cards">
+            <div class="info-card">
+                <div class="ic-icon">📍</div>
+                <div>
+                    <p class="ic-title">Location</p>
+                    <p class="ic-text"><strong>Lusaka, Zambia</strong><br>Cairo Road Area<br>Opposite Manda Hill</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="ic-icon">🕐</div>
+                <div>
+                    <p class="ic-title">Opening Hours</p>
+                    <p class="ic-text">
+                        <strong>Mon – Fri</strong> &nbsp;11:00 AM – 10:00 PM<br>
+                        <strong>Saturday</strong> &nbsp;11:00 AM – 10:30 PM<br>
+                        <strong>Sunday</strong> &nbsp;12:00 PM – 9:30 PM
+                    </p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="ic-icon">🍽️</div>
+                <div>
+                    <p class="ic-title">Dining Options</p>
+                    <p class="ic-text"><strong>Dine In</strong> · <strong>Takeaway</strong><br>Large tables available for groups.<br>Please call ahead for large parties.</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="ic-icon">🌶️</div>
+                <div>
+                    <p class="ic-title">Spice Levels</p>
+                    <p class="ic-text">All dishes available in<br><strong>Mild · Medium · Hot</strong><br>Just let us know when you order.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="ft-brand">
+        <h2>DIL</h2>
+        <p>Authentic Indian &amp; Chinese · Est. 1994</p>
+    </div>
+    <div class="ft-right">
+        <p>© 2026 Dil Restaurant Group. Lusaka, Zambia.</p>
+        <p style="margin-top:6px;">
+            <a href="#story">Our Story</a> &nbsp;·&nbsp;
+            <a href="#menu">Menu</a> &nbsp;·&nbsp;
+            <a href="#gallery">Gallery</a> &nbsp;·&nbsp;
+            <a href="#contact">Contact</a>
+        </p>
+    </div>
+</footer>
+
+<script>
+    /* HERO SLIDER */
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots   = document.querySelectorAll('.dot');
+    let cur = 0, tmr;
+
+    function goToSlide(n) {
+        slides[cur].classList.remove('active');
+        dots[cur].classList.remove('active');
+        cur = n;
+        slides[cur].classList.add('active');
+        dots[cur].classList.add('active');
+        clearInterval(tmr);
+        tmr = setInterval(() => goToSlide((cur + 1) % slides.length), 5500);
+    }
+    tmr = setInterval(() => goToSlide((cur + 1) % slides.length), 5500);
+
+    /* YEARS */
+    const yrs = new Date().getFullYear() - 1994;
+    ['years','years2','years3'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = yrs;
+    });
+
+    /* STICKY HEADER */
+    window.addEventListener('scroll', () => {
+        document.querySelector('header').style.boxShadow =
+            window.scrollY > 20 ? 'var(--shadow)' : 'none';
+    });
+
+    /* LIGHT / DARK TOGGLE */
+    const btn  = document.getElementById('themeBtn');
+    const html = document.documentElement;
+
+    const saved = localStorage.getItem('dil-theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    applyTheme(saved);
+
+    btn.addEventListener('click', () => {
+        applyTheme(html.dataset.theme === 'dark' ? 'light' : 'dark');
+    });
+
+    function applyTheme(t) {
+        html.setAttribute('data-theme', t);
+        btn.textContent = t === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('dil-theme', t);
+    }
+
+    /* HAMBURGER / MOBILE NAV */
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileNav    = document.getElementById('mobileNav');
+    const backdrop     = document.getElementById('mobileNavBackdrop');
+
+    function openNav()  { mobileNav.classList.add('open'); hamburgerBtn.classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeNav() { mobileNav.classList.remove('open'); hamburgerBtn.classList.remove('open'); document.body.style.overflow=''; }
+
+    hamburgerBtn.addEventListener('click', () => mobileNav.classList.contains('open') ? closeNav() : openNav());
+    backdrop.addEventListener('click', closeNav);
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav .nav-cta').forEach(a => a.addEventListener('click', closeNav));
+</script>
+</body>
+</html>
